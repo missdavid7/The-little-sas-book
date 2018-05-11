@@ -1,3 +1,4 @@
+
 * 3.1 Modify homegarden data set with assignment statements;
 data homegaden;
 	infile '/folders/myfolders/Chapter 3/Garden.dat';
@@ -96,13 +97,26 @@ run;
 
 
 * 3.12 Using shortcuts for lists for variable names;
-* Data songs;
+Data songs;
 	infile '/folders/myfolders/Chapter 3/WBRK.dat';
 	input City $ 1-15 Age domk wj hwow simbh kt aomm libm tr filp ttr;
 	array new (10) Song1 - Song10;
+	array old (10) domk -- ttr;
+	Do i = 1 to 10;
+		if old (i) = 9 then new(i) = .;
+			else new(i) = old (i);
+	end;
+	avgscore = mean (OF Song1 - Song10);
+proc print data = songs;
+	title  'WBRK Song Survey';
+run;
+
 	
 
 
+
+
+	
 
 
 	
