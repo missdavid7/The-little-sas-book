@@ -1,0 +1,108 @@
+* 3.1 Modify homegarden data set with assignment statements;
+data homegaden;
+	infile '/folders/myfolders/Chapter 3/Garden.dat';
+	input Name $ 1-7 Tomato Zucchini Peas Grapes;
+	Zone = 14;
+	Type = 'home';
+	Zucchini = Zucchini * 10;
+	Total = Tomato + Zucchini + Peas + Grapes;
+	PerTom = (Tomato / Total) * 100;
+run;
+proc print data = homegaden;
+	title 'Home Garden Survey';
+run;
+
+
+
+* 3.2 Using SAS functions
+data contest;
+	infile '/folders/myfolders/Chapter 3/Pumpkin.dat';
+	input Name $16. Age 3. +1 Type $1. +1 Date MMDDYY10.(scr1 scr2 scr3 scr4 scr5)(4.1);
+	avgscore = mean(scr1,scr2,scr3,scr4,scr5);
+	dataentered = Day(Date);
+	Type = UPCASE(Type);
+run;
+proc print data = contest;
+	title 'Pumpkin Carvig Contest';
+run;
+
+
+* 3.5 Using if-then statements
+data sportscars;
+	infile '/folders/myfolders/Chapter 3/UsedCars.dat';
+	input Model $ Year Make $ Seats Color $;
+	if year < 1975 then status = 'classic';
+	if model = 'Corvette' or model = 'Camaro' then make = 'Chevy';
+	if model = 'Miata' then DO;
+		make = 'Mazada';
+		seats = 2;
+	end;
+run;
+
+
+* 3.6 Grouping observations with if-then/slse statements
+* Group observations by cost;
+data homeimprovements;
+	infile '/folders/myfolders/Chapter 3/Home.dat';
+	input Owner $ 1-7 Description $ 9-33 Cost;
+	if Cost = . then CostGroup = 'missing';
+		else if cost < 2000 then CostGroup = 'low';
+		else if cost < 10000 then CostGroup = 'medium';
+		else CostGroup = 'high';
+run;
+proc print data = homeimprovements;
+	title 'Home Improvement Cost Groups';
+run;
+
+
+* 3.7 subset your data
+* Choose only comedies;
+data comedy;
+	infile '/folders/myfolders/Chapter 3/Shakespeare.dat';
+	input Title $ 1-26 Year Type $;
+	if Type = 'comedy';
+run;
+proc print data = comedy;
+	title 'Shakespearean Comedies';
+run;
+
+* 3.10 Using the retain and sum statements;
+* Using retain and sum statements to find most runs and total runs;
+Data gamestats;
+	infile '/folders/myfolders/Chapter 3/Games.dat';
+	input Month 1 Day 3-4 Team $ 6-25 Hits 27-28 Runs 30-31;
+	retain Maxruns;
+	Maxruns = MAX(maxruns,Runs);
+	RunsToDate + Runs;
+run;
+proc print data = gamestates;
+	title 'Season's Record to Date';
+run;
+
+
+* 3.11 Simplying pprograms with arrays;
+* Change all 9s to missing values;
+data songs;
+	infile '/folders/myfolders/Chapter 3/WBRK.dat';
+	input City $ 1-15 Age domk wj hwow simbh kt aomm libm tr filp ttr;
+	array song (10) domk wj hwow simbh kt aomm libm tr filp ttr;
+	do i = 1 to 10;
+		if song(i) = 9 then song(i) = .;
+	end;
+run;
+proc print data = songs;
+	title 'wbrk Song Survey';
+run;
+
+
+* 3.12 Using shortcuts for lists for variable names;
+* Data songs;
+	infile '/folders/myfolders/Chapter 3/WBRK.dat';
+	input City $ 1-15 Age domk wj hwow simbh kt aomm libm tr filp ttr;
+	array new (10) Song1 - Song10;
+	
+
+
+
+
+	
